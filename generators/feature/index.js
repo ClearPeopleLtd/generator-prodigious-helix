@@ -4,15 +4,16 @@ var yosay = require('yosay');
 var chalk = require('chalk');
 var path = require('path');
 var guid = require('node-uuid');
+var mkdirp = require('mkdirp');
 
 module.exports = generators.Base.extend({
 
     prompting: function() {
         this.log(yosay(
-            'Welcome to the slick ' + chalk.red.bold('Prodigious Helix') + ' generator!'
+            'Welcome to the slick ' + chalk.red.bold('CP Helix') + ' generator!'
         ));
 
-        console.log('INFO: .NET Framework 4.5');
+        console.log('INFO: .NET Framework 4.6');
         console.log('INFO: MVC 5.2.3');
         console.log('');
         console.log(chalk.red.bold('YOU MUST RUN THIS GENERATOR AS AN ADMINISTRATOR.'));
@@ -46,6 +47,9 @@ module.exports = generators.Base.extend({
             this.templatePath('code/**/*'),
             this.destinationPath(path.join(targetPath, 'code'))
         );
+		
+		// Views folder
+		mkdirp.sync(targetPath + '/code/Views/' + this.props.featureTitle + "/");
 
         // csproj
         this.fs.copyTpl(
@@ -78,6 +82,11 @@ module.exports = generators.Base.extend({
             this.fs.copy(
                 this.templatePath('tds/**/*'),
                 this.destinationPath(path.join(targetPath, 'tds'))
+            );
+			
+			this.fs.copy(
+                this.templatePath('Code Generation Templates/**/*'),
+                this.destinationPath(path.join(codePath, 'tds/' + this.props.solutionName + '.Feature.' + this.props.featureTitle + '.Master' + '/Code Generation Templates/'))
             );
 
             // tds csproj

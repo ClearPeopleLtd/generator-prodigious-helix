@@ -10,15 +10,15 @@ module.exports = generators.Base.extend({
 
     prompting: function() {
         this.log(yosay(
-            'Welcome to the slick ' + chalk.red.bold('Prodigious Helix') + ' generator!'
+            'Welcome to the slick ' + chalk.red.bold('CP Helix') + ' generator!'
         ));
 
-        console.log('INFO: .NET Framework 4.5');
+        console.log('INFO: .NET Framework 4.6');
         console.log('INFO: MVC 5.2.3');
         console.log('');
         console.log(chalk.red.bold('YOU MUST RUN THIS GENERATOR AS AN ADMINISTRATOR.'));
         console.log('');
-
+		
         return this.prompt([{
             type: 'input',
             name: 'solutionName',
@@ -30,13 +30,14 @@ module.exports = generators.Base.extend({
             default: true
         }]).then(function(answers) {
             this.props = answers;
-            this.props.projectGuid = '{' + guid.v4() + '}';
-            this.props.configFolder = '{' + guid.v4() + '}';
-            this.props.featureFolder = '{' + guid.v4() + '}';
-            this.props.projectFolder = '{' + guid.v4() + '}';
-            this.props.foundationFolder = '{' + guid.v4() + '}';
-            this.props.solutionFolder = '{' + guid.v4() + '}';
-            this.props.tdsGuid = guid.v4();
+            this.props.projectGuid = '{' + guid.v4().toUpperCase() + '}';
+            this.props.configFolder = '{' + guid.v4().toUpperCase() + '}';
+            this.props.featureFolder = '{' + guid.v4().toUpperCase() + '}';
+            this.props.projectFolder = '{' + guid.v4().toUpperCase() + '}';
+            this.props.foundationFolder = '{' + guid.v4().toUpperCase() + '}';
+            this.props.solutionFolder = '{' + guid.v4().toUpperCase() + '}';
+            this.props.tdsGuid = '{' + guid.v4().toUpperCase() + '}';
+			this.props.buildtasksFolder = '{' + guid.v4().toUpperCase() + '}';
 
         }.bind(this));
     },
@@ -85,7 +86,7 @@ module.exports = generators.Base.extend({
         this.fs.copyTpl(
             this.templatePath('publishsettings.targets'),
             this.destinationPath(path.join('publishsettings.targets')), {
-                solutionName: this.props.solutionName
+                solutionName: this.props.solutionName.toLowerCase()
             }
         );
 
@@ -99,6 +100,18 @@ module.exports = generators.Base.extend({
         this.fs.copy(
             this.templatePath('code/**/*'),
             this.destinationPath(path.join(codePath, 'code'))
+        );
+		
+		// buildtasks folder
+        this.fs.copy(
+            this.templatePath('buildtasks/**/*'),
+            this.destinationPath(path.join('buildtasks'))
+        );
+		
+		// scripts folder
+        this.fs.copy(
+            this.templatePath('scripts/**/*'),
+            this.destinationPath(path.join('scripts'))
         );
 
         // csproj
@@ -132,7 +145,8 @@ module.exports = generators.Base.extend({
                 solutionName: this.props.solutionName,
                 projectGuid: this.props.projectGuid,
                 tdsGuid: this.props.tdsGuid,
-                createTdsProject: this.props.createTdsProject
+                createTdsProject: this.props.createTdsProject,
+				buildtasksFolder: this.props.buildtasksFolder
             }
         );
 
@@ -145,8 +159,8 @@ module.exports = generators.Base.extend({
 
         // z.Project.DevSettings.config
         this.fs.copyTpl(
-            this.templatePath('z.Project.DevSettings.config'),
-            this.destinationPath(path.join(codePath, 'code', 'App_Config', 'Include/' + this.props.solutionName, 'z.' + this.props.solutionName + '.DevSettings.config')),
+            this.templatePath('zz-Project.DevSettings.config'),
+            this.destinationPath(path.join(codePath, 'code', 'App_Config', 'Include/' + this.props.solutionName, 'zz-' + this.props.solutionName + '.DevSettings.config')),
             this.props
         );
 
@@ -155,6 +169,11 @@ module.exports = generators.Base.extend({
             this.fs.copy(
                 this.templatePath('tds/**/*'),
                 this.destinationPath(path.join(codePath, 'tds'))
+            );
+			
+			this.fs.copy(
+                this.templatePath('Code Generation Templates/**/*'),
+                this.destinationPath(path.join(codePath, 'tds/' + this.props.solutionName + '.Website.Master' + '/Code Generation Templates/'))
             );
 
             // tds csproj
@@ -167,6 +186,10 @@ module.exports = generators.Base.extend({
                 this.props
             );
         }
+		
+		// git files
+        this.fs.copy(this.templatePath('.gitignore'), this.destinationPath(path.join('.gitignore')));
+		this.fs.copy(this.templatePath('.gitattributes'), this.destinationPath(path.join('.gitattributes')));
     },
     end: function() {
         console.log('');
