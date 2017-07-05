@@ -117,6 +117,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Repositories\I<%= featureTitle %>Repository.cs" />
+    <Compile Include="Repositories\<%= featureTitle %>Repository.cs" />
+	<Compile Include="Controllers\<%= featureTitle %>Controller.cs" />
     <Content Include="App_Config\Include\<%= solutionName %>\Feature\Feature.<%= featureTitle %>.config" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -133,8 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
-    <Folder Include="Controllers\" />
-    <Folder Include="Repositories\" />
+	<Folder Include="Views\<%= featureTitle %>" />
     <none Include="Views\web.config" />
   </ItemGroup>
   <PropertyGroup>

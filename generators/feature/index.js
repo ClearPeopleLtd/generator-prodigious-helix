@@ -76,6 +76,25 @@ module.exports = generators.Base.extend({
             this.destinationPath(path.join(targetPath, 'code', 'App_Config', 'Include/' + this.props.solutionName, 'Feature', 'Feature.' + this.props.featureTitle + '.config')),
             this.props
         );
+		
+		// Repositories
+        this.fs.copyTpl(
+            this.templatePath('Repositories/IRepository.cs'),
+            this.destinationPath(path.join(targetPath, 'code', 'Repositories', 'I' + this.props.featureTitle + 'Repository.cs')),
+            this.props
+        );
+		this.fs.copyTpl(
+            this.templatePath('Repositories/Repository.cs'),
+            this.destinationPath(path.join(targetPath, 'code', 'Repositories', this.props.featureTitle + 'Repository.cs')),
+            this.props
+        );
+		
+		// Controller
+        this.fs.copyTpl(
+            this.templatePath('Controllers/Controller.cs'),
+            this.destinationPath(path.join(targetPath, 'code', 'Controllers', this.props.featureTitle + 'Controller.cs')),
+            this.props
+        );
 
         // TDS Project
         if (this.props.createTdsProject) {
