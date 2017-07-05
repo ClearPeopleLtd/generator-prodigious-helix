@@ -9,10 +9,10 @@ module.exports = generators.Base.extend({
 
     prompting: function() {
         this.log(yosay(
-            'Welcome to the slick ' + chalk.red.bold('Prodigious Helix') + ' generator!'
+            'Welcome to the slick ' + chalk.red.bold('CP Helix') + ' generator!'
         ));
 
-        console.log('INFO: .NET Framework 4.5');
+        console.log('INFO: .NET Framework 4.6');
         console.log('INFO: MVC 5.2.3');
         console.log('');
         console.log(chalk.red.bold('YOU MUST RUN THIS GENERATOR AS AN ADMINISTRATOR.'));
@@ -33,8 +33,8 @@ module.exports = generators.Base.extend({
             default: true
         }]).then(function(answers) {
             this.props = answers;
-            this.props.projectGuid = '{' + guid.v4() + '}';
-            this.props.tdsGuid = guid.v4();
+            this.props.projectGuid = '{' + guid.v4().toUpperCase() + '}';
+            this.props.tdsGuid = '{' + guid.v4().toUpperCase() + '}';
         }.bind(this));
     },
     writing: function() {
@@ -97,7 +97,10 @@ module.exports = generators.Base.extend({
         console.log('Your foundation module ' + chalk.red.bold(this.props.foundationTitle) + ' has been created');
         console.log('');
         console.log('You will need to add your foundation project(s) to your Visual Studio solution.');
-        console.log('Then build and publish the foundation project from Visual Studio.');
+        if (this.props.createTdsProject) {
+            console.log('You will need to add your TDS project(s) to your Visual Studio solution.');
+        }
+		console.log('Then build and publish the foundation project from Visual Studio.');
         console.log('');
     }
 });

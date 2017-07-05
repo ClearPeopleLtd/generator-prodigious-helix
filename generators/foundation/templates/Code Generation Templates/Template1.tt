@@ -1,0 +1,72 @@
+﻿<#@ template language="C#" #>
+<#@ output encoding="utf-8"#>
+
+<#@ include file="Helpers.tt" #>
+<#@ include file="StringExtensions.tt" #>
+<#@ include file="GeneralExtensions.tt" #>
+<#@ include file="Inflector.tt" #>
+
+<#@ assembly name="System.Core.dll" #>
+
+<#@ import namespace="System" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="HedgehogDevelopment.SitecoreProject.VSIP.CodeGeneration.Models" #>
+
+<#@ parameter name="Model" type="HedgehogDevelopment.SitecoreProject.VSIP.CodeGeneration.Models.SitecoreItem" #>
+<#@ parameter name="DefaultNamespace" type="System.String" #>
+
+<#
+/*
+
+There are a few things you can put in the 'Custom Data' property of a field in TDS. 
+To use multiple settings put them in as a querystring (key1=value&key2=value)
+
+ignore=true
+	Sets a field to be skipped over for code gen
+name=[name]
+	Forces the name of the generated property. 
+	If not specified, then the generated property is the name of the Sitecore field. 
+	If the field stores multiple values, the property name is pluralized.
+type=[type]
+	Sets the return type of the generated property
+generic=[type]
+	In the event the type (either specificed or auto mapped) is a generic it will use this generic type. i.e. List<generic>
+		
+*/
+#>
+
+<#
+// we only act on Templates
+SitecoreTemplate template = Model as SitecoreTemplate;
+if (template == null)
+{
+	return "";
+}
+
+string Tool = "Team Development for Sitecore - GlassItem.tt";
+string ToolVersion = "1.0";
+#>
+
+namespace <#= GetNamespace(DefaultNamespace, template)#>
+{
+    using Sitecore.Data;
+
+    public static partial class Templates
+    {
+        public struct <#= AsClassName(template.Name) #>
+        {
+            public static ID ID = new ID("<#= template.ID.ToString() #>");
+            public const string <#=AsClassName(template.Name)#>_Name = "<#=AsClassName(template.Name)#>";
+            
+            public struct Fields
+            {
+<#foreach(SitecoreField field in GetFieldsForTemplate(template, false)){#>
+                public static readonly ID <#=GetPropertyName(field)#> = new ID("<#=field.ID.ToString()#>");
+                public const string <#=GetPropertyName(field)#>_FieldName = "<#=GetPropertyName(field)#>";
+<#}#>
+            }
+        }
+    }
+}
