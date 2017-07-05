@@ -34,8 +34,8 @@ module.exports = generators.Base.extend({
             default: true
         }]).then(function(answers) {
             this.props = answers;
-            this.props.projectGuid = '{' + guid.v4() + '}';
-            this.props.tdsGuid = guid.v4();
+            this.props.projectGuid = '{' + guid.v4().toUpperCase() + '}';
+            this.props.tdsGuid = '{' + guid.v4().toUpperCase() + '}';
         }.bind(this));
     },
     writing: function() {
@@ -86,7 +86,7 @@ module.exports = generators.Base.extend({
 			
 			this.fs.copy(
                 this.templatePath('Code Generation Templates/**/*'),
-                this.destinationPath(path.join(codePath, 'tds/' + this.props.solutionName + '.Feature.' + this.props.featureTitle + '.Master' + '/Code Generation Templates/'))
+                this.destinationPath(path.join(targetPath, 'tds/' + this.props.solutionName + '.Feature.' + this.props.featureTitle + '.Master' + '/Code Generation Templates/'))
             );
 
             // tds csproj

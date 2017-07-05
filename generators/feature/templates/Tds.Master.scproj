@@ -8,7 +8,7 @@
     <ProjectGuid><%= tdsGuid %></ProjectGuid>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <SourceWebPhysicalPath>..\..\code</SourceWebPhysicalPath>    
-    <SourceWebProject><%= projectGuid %>|src\Feature\<%= featureTitle %>\code\<%= solutionName %>.Feature.<%= featureTitle %>.csproj</SourceWebProject>
+    <SourceWebProject><%= projectGuid.toLowerCase() %>|src\Feature\<%= featureTitle %>\code\<%= solutionName %>.Feature.<%= featureTitle %>.csproj</SourceWebProject>
     <SourceWebVirtualPath>/<%= solutionName %>.Feature.<%= featureTitle %>.csproj</SourceWebVirtualPath>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <EnableUpdateable>true</EnableUpdateable>
@@ -50,7 +50,7 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Install' ">
     <DebugSymbols>true</DebugSymbols>
     <RecursiveDeployAction>Ignore</RecursiveDeployAction>
-    <OutputPath>bin\Install\</OutputPath>
+    <OutputPath>.\bin\Install\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <AssemblyAttributes Include="AssemblyFileVersion">
