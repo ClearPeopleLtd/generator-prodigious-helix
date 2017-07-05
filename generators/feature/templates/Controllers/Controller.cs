@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Sitecore.Feature.<%= featureTitle %>.Repositories;
+using <%= solutionName %>.Feature.<%= featureTitle %>.Repositories;
 
 namespace <%= solutionName %>.Feature.<%= featureTitle %>.Controllers
 {
 
 	public class <%= featureTitle %>Controller : Controller
 	{
-		private readonly I<%= featureTitle %>Repository <%= featureTitle.toLowerCase() %>RepositoryFactory;
+		private readonly I<%= featureTitle %>Repository <%= featureTitle.toLowerCase() %>Repository;
 
 		public NewsController() : this(new <%= featureTitle %>Repository())
 		{
