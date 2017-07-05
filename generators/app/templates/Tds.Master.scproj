@@ -50,7 +50,7 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Install' ">
     <DebugSymbols>true</DebugSymbols>
     <RecursiveDeployAction>Ignore</RecursiveDeployAction>
-    <OutputPath>bin\Install\</OutputPath>
+    <OutputPath>.\bin\Install\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <AssemblyAttributes Include="AssemblyFileVersion">
@@ -60,7 +60,7 @@
       <Value>$(AssemblyVersion)</Value>
     </AssemblyAttributes>
   </ItemGroup>
-    <ItemGroup Condition=" '$(Configuration)' == 'Release' ">
+  <ItemGroup Condition=" '$(Configuration)' == 'Release' ">
     <PostDeployAction Include="HedgehogDevelopment.SitecoreProject.PackageInstallPostProcessor.BuiltIn.PublishDeployedItems, HedgehogDevelopment.SitecoreProject.PackageInstallPostProcessor">
       <Parameter>Internet</Parameter>
       <Order>0</Order>
