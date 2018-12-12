@@ -64,7 +64,7 @@ namespace <#= GetNamespace(DefaultNamespace, template)#>
             {
 <#foreach(SitecoreField field in GetFieldsForTemplate(template, false)){#>
                 public static readonly ID <#=GetPropertyName(field)#> = new ID("<#=field.ID.ToString()#>");
-                public const string <#=GetPropertyName(field)#>_FieldName = "<#=GetPropertyName(field)#>";
+                public const string <#=GetPropertyName(field)#>_FieldName = "<#= field.Name#>";
 <#}#>
             }
         }
